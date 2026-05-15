@@ -1,0 +1,31 @@
+<?php
+// ✅ CORRECCIÓN SRP — Responsabilidad: notificación por email
+// Archivo: app/Services/AnimalNotificacionService.php
+
+namespace App\Services;
+
+use App\Models\Animal;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Mail;
+
+class AnimalNotificacionService
+{
+    /**
+     * Notifica al propietario del rancho sobre el registro de un animal.
+     */
+    public function notificarRegistro(Animal $animal, int $ranchoId): void
+    {
+        $propietario = DB::table('propietarios')
+            ->where('rancho_id', $ranchoId)->first();
+
+        $cuerpoEmail  = '<h1>Registro exitoso</h1>';
+        $cuerpoEmail .= '<p>Animal: ' . $animal->nombre . '</p>';
+        $cuerpoEmail .= '<p>Arete: ' . $animal->numero_arete . '</p>';
+        $cuerpoEmail .= '<p>Peso inicial: ' . $animal->peso_inicial_kg . ' kg</p>';
+
+        Mail::raw($cuerpoEmail, function ($message) use ($propietario) {
+            $message->to($propietario->email)
+                    ->subject('BovWeight CR — Nuevo animal registrado');
+        });
+    }
+}
