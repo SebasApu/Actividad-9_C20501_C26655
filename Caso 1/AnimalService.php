@@ -1,6 +1,4 @@
 <?php
-// ✅ CORRECCIÓN SRP — AnimalService ahora solo tiene lógica de negocio
-// Archivo: app/Services/AnimalService.php
 
 namespace App\Services;
 
@@ -19,9 +17,7 @@ class AnimalService
         $this->pdfService  = $pdfService;
     }
 
-    /**
-     * Registra un animal: valida, persiste, y delega notificación y PDF.
-     */
+  
     public function registrar(array $datos): Animal
     {
         // ── Validación (lógica de negocio) ─────────────
@@ -33,7 +29,7 @@ class AnimalService
             throw new \InvalidArgumentException('El peso inicial debe ser positivo.');
         }
 
-        // ── Persistencia ───────────────────────────────
+      
         $animal = Animal::create([
             'numero_arete'    => $datos['numero_arete'],
             'nombre'          => $datos['nombre'],
@@ -43,7 +39,7 @@ class AnimalService
             'fecha_nacimiento'=> $datos['fecha_nacimiento'],
         ]);
 
-        // ── Delegación a servicios especializados ──────
+       
         $this->notificador->notificarRegistro($animal, $datos['rancho_id']);
         $this->pdfService->generarPdfRegistro($animal, $datos['rancho_id']);
 

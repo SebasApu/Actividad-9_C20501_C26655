@@ -1,6 +1,4 @@
 <?php
-// ✅ CORRECCIÓN SRP — Responsabilidad: generación de PDF del registro
-// Archivo: app/Services/AnimalPdfService.php
 
 namespace App\Services;
 
@@ -10,9 +8,7 @@ use Barryvdh\DomPDF\Facade\Pdf;
 
 class AnimalPdfService
 {
-    /**
-     * Genera y almacena el PDF del registro de un animal.
-     */
+    
     public function generarPdfRegistro(Animal $animal, int $ranchoId): string
     {
         $propietario = DB::table('propietarios')
