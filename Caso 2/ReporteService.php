@@ -18,7 +18,8 @@ class ReporteService
         $this->generadores = $generadores;
     }
 
-   ic function generar(string $tipo, int $ranchoId): array
+   
+    public function generar(string $tipo, int $ranchoId): array
     {
         if (!isset($this->generadores[$tipo])) {
             throw new \InvalidArgumentException("Tipo de reporte desconocido: {$tipo}");
